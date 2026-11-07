@@ -1,237 +1,449 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Justus Majula | Power Generation Engineer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0066FF',
+                            cyan: '#00F0FF',
+                            amber: '#FFB800',
+                            dark: '#0B0F17',
+                            card: '#131A26',
+                            border: '#1E293B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #0284c7;
-            --accent-hover: #0369a1;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
+            background-color: #0B0F17;
+            color: #F8FAFC;
+            font-family: 'Inter', sans-serif;
         }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
+        .glow-effect {
+            box-shadow: 0 0 25px -5px rgba(0, 102, 255, 0.3);
         }
-
-        header {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 30px;
-            text-align: center;
+        .glow-amber {
+            box-shadow: 0 0 25px -5px rgba(255, 184, 0, 0.3);
         }
-
-        h1 {
-            font-size: 2.5rem;
-            color: var(--text-main);
-            margin-bottom: 10px;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
         }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--accent-color);
-            font-weight: 600;
-            margin-bottom: 15px;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0B0F17;
         }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .contact-info a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        section {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 30px;
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .job, .edu-item {
-            margin-bottom: 25px;
-        }
-
-        .job:last-child, .edu-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .job-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--text-main);
-        }
-
-        .company-date {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        ul {
-            list-style-type: square;
-            padding-left: 20px;
-            color: var(--text-muted);
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .skill-card {
-            background: var(--bg-color);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .skill-card h3 {
-            font-size: 1rem;
-            color: var(--accent-color);
-            margin-bottom: 8px;
-        }
-
-        footer {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-top: 20px;
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 3px;
         }
     </style>
 </head>
-<body>
+<body class="custom-scrollbar min-h-screen flex flex-col justify-between selection:bg-brand-blue selection:text-white">
 
-<div class="container">
-    <header>
-        <h1>Justus Majula</h1>
-        <div class="subtitle">Power Generation Engineer</div>
-        <div class="contact-info">
-            <span>📍 Dar es Salaam, Tanzania</span>
-            <span>📞 +255 673754410</span>
-            <span>✉️ <a href="mailto:Justusmajula.juc@gmail.com">Justusmajula.juc@gmail.com</a></span>
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-50 bg-[#0B0F17]/90 backdrop-blur-md border-b border-brand-border px-4 lg:px-12 py-3">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="#hero" class="flex items-center gap-2 font-bold text-lg tracking-wide text-white group">
+                <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-blue to-brand-cyan flex items-center justify-center text-white font-black text-sm group-hover:scale-105 transition-transform">JM</span>
+                <span>Justus<span class="text-brand-blue">.Majula</span></span>
+            </a>
+            
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-brand-cyan transition-colors">About</a>
+                <a href="#skills" class="hover:text-brand-cyan transition-colors">Tech Stack</a>
+                <a href="#experience" class="hover:text-brand-cyan transition-colors">Experience</a>
+                <a href="#education" class="hover:text-brand-cyan transition-colors">Education</a>
+                <a href="#referees" class="hover:text-brand-cyan transition-colors">Referees</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <a href="mailto:Justusmajula.juc@gmail.com" class="bg-brand-blue hover:bg-blue-600 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 glow-effect">
+                    <i class="fa-solid me-1 fa-envelope">="true"</i> Get in Touch
+                </a>
+            </div>
         </div>
     </header>
 
-    <section id="about">
-        <h2>Professional Summary</h2>
-        <p>Power generation engineer with Cummins products with over 5 years of experience dealing with Engines, Generators, ATS (Automatic Transfer Switch), PLC (Programmable Logic Controller), and OBD (On-Board Diagnostics). Throughout my career, I have successfully contributed to various power projects with clients across hospitals, communications towers, and construction sites. Skilled in performance data analysis, identifying improvements, and delivering hands-on technical solutions and supervisory leadership.</p>
-    </section>
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full space-y-16">
 
-    <section id="experience">
-        <h2>Work Experience</h2>
+        <!-- Hero Section -->
+        <section id="hero" class="relative pt-6 pb-4">
+            <div class="grid md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-2 space-y-5">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/30 text-brand-cyan text-xs font-semibold tracking-wider uppercase">
+                        <span class="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span> Available for Senior Engineering Roles
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                        Justus Majula
+                    </h1>
+                    <p class="text-xl sm:text-2xl font-semibold text-slate-300">
+                        Senior Power Generation Engineer
+                    </p>
+                    <p class="text-slate-400 text-base leading-relaxed max-w-2xl">
+                        Specializing in Cummins high-capacity engines, diesel generators, Automatic Transfer Switches (ATS), Programmable Logic Controllers (PLC), and advanced On-Board Diagnostics (OBD). Over 5 years of hands-on and supervisory expertise delivering continuous critical power solutions across Tanzania.
+                    </p>
+                    
+                    <!-- Quick Info Badges -->
+                    <div class="flex flex-wrap gap-4 pt-2 text-sm text-slate-300">
+                        <div class="flex items-center gap-2 bg-brand-card px-3 py-1.5 rounded-lg border border-brand-border">
+                            <i class="fa-solid fa-location-dot text-brand-blue"></i> Dar es Salaam, Tanzania
+                        </div>
+                        <div class="flex items-center gap-2 bg-brand-card px-3 py-1.5 rounded-lg border border-brand-border">
+                            <i class="fa-solid fa-phone text-brand-amber"></i> +255 673 754 410
+                        </div>
+                        <div class="flex items-center gap-2 bg-brand-card px-3 py-1.5 rounded-lg border border-brand-border">
+                            <i class="fa-solid fa-envelope text-brand-cyan"></i> Justusmajula.juc@gmail.com
+                        </div>
+                    </div>
 
-        <div class="job">
-            <div class="job-title">Senior Service Engineer – Power Generation Department</div>
-            <div class="company-date">Car & General Trading Ltd (Cummins Dealer) | Nov 2022 – Present</div>
-            <ul>
-                <li><strong>Mechanical:</strong> Pre-Delivery Inspection (PDI) of new generator sets, equipment installation, preventive and corrective maintenance per OEM specifications, and major engine overhauls (QSX 15, QSK, QSL, KTA, NTA, ISB, 4BT, 6BT, 6BTA).</li>
-                <li><strong>Electrical:</strong> Installation and troubleshooting of ATS, manual changeovers, synchronization boards, large electrical panels, and engine protection/regulation sensors.</li>
-                <li><strong>Software & Control Systems:</strong> Engine and generator diagnostics via OBD; PLC and PowerCommand Control (PCC) updating and calibration using Cummins INSITE, Cummins INPOWER, and Deep Sea Software Suite.</li>
-            </ul>
-        </div>
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="mailto:Justusmajula.juc@gmail.com" class="bg-gradient-to-r from-brand-blue to-blue-700 text-white font-medium px-5 py-2.5 rounded-lg hover:opacity-90 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Contact Me
+                        </a>
+                        <button onclick="window.print()" class="bg-brand-card text-slate-200 border border-brand-border hover:bg-slate-800 font-medium px-5 py-2.5 rounded-lg transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-print"></i> Save / Print Resume
+                        </button>
+                    </div>
+                </div>
 
-        <div class="job">
-            <div class="job-title">Service Engineer – Power Generation Department</div>
-            <div class="company-date">Car & General Trading Ltd (Cummins Dealer) | Feb 2020 – Nov 2022</div>
-            <ul>
-                <li>Ensured strict safety compliance during maintenance and emergency breakdown responses to minimize downtime.</li>
-                <li>Diagnosed mechanical and electrical issues using digital multimeters and technical manual blueprints.</li>
-                <li>Inspected facility and backup generators for outage readiness and performed root-cause analysis on equipment failures.</li>
-            </ul>
-        </div>
-
-        <div class="job">
-            <div class="job-title">Automobile Service Engineer</div>
-            <div class="company-date">Toyota Tanzania Ltd | Nov 2019 – Feb 2020</div>
-            <ul>
-                <li>Provided customer technical support, vehicle inspections, and computer-diagnosed mechanical and electrical troubleshooting.</li>
-                <li>Executed root cause analysis to establish quality control measures and performed scheduled repairs (brakes, suspensions, wiring harnesses).</li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="education">
-        <h2>Education</h2>
-        <div class="edu-item">
-            <div class="job-title">Bachelor Degree in Automobile Engineering</div>
-            <div class="company-date">National Institute of Transport (NIT) | 2017 – 2021</div>
-        </div>
-        <div class="edu-item">
-            <div class="job-title">Advanced Certificate of Secondary Education (ACSE)</div>
-            <div class="company-date">St. Mathew's Secondary School | 2015 – 2016</div>
-        </div>
-        <div class="edu-item">
-            <div class="job-title">Certificate of Secondary School (CSE)</div>
-            <div class="company-date">Kanyigo Secondary School | 2011 – 2014</div>
-        </div>
-    </section>
-
-    <section id="skills">
-        <h2>Technical Skills & Tools</h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>Core Engineering</h3>
-                <p>Power Generation, Diesel Engines, ATS, Synchronization Boards, PLC Systems</p>
+                <!-- Profile Card Summary -->
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-6 glow-effect relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-brand-blue/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-blue to-brand-amber flex items-center justify-center text-3xl font-bold text-white shadow-lg">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white">Engineering Snapshot</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between pb-2 border-b border-slate-800">
+                                <span class="text-slate-400">Experience</span>
+                                <span class="font-semibold text-white">5+ Years</span>
+                            </div>
+                            <div class="flex justify-between pb-2 border-b border-slate-800">
+                                <span class="text-slate-400">Core Specialty</span>
+                                <span class="font-semibold text-brand-cyan">Cummins OEM Systems</span>
+                            </div>
+                            <div class="flex justify-between pb-2 border-b border-slate-800">
+                                <span class="text-slate-400">Overhaul Engine Sizes</span>
+                                <span class="font-semibold text-white">QSX15, QSK, QSL, KTA</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Degree</span>
+                                <span class="font-semibold text-white">B.Sc Automobile Eng.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="skill-card">
-                <h3>Diagnostic Tools</h3>
-                <p>Cummins INSITE, Cummins INPOWER, Deep Sea Software Suite, OBD Tools</p>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="space-y-4">
+            <div class="flex items-center gap-3">
+                <div class="w-1.5 h-6 bg-brand-blue rounded-full"></div>
+                <h2 class="text-2xl font-bold text-white tracking-tight">Professional Summary</h2>
             </div>
-            <div class="skill-card">
-                <h3>Languages</h3>
-                <p>English, Kiswahili</p>
+            <div class="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-8 text-slate-300 leading-relaxed space-y-4">
+                <p>
+                    Power Generation Engineer specialized in Cummins products with over 5 years of comprehensive experience managing heavy-duty Engines, Generators, Automatic Transfer Switches (ATS), Programmable Logic Controllers (PLC), and On-Board Diagnostics (OBD).
+                </p>
+                <p>
+                    Throughout my career, I have successfully contributed to critical power infrastructure projects across diverse sectors including healthcare facilities, telecommunication towers, and large-scale industrial construction sites. I excel in generating data-driven performance reports, identifying operational bottlenecks, executing major mechanical overhauls, and delivering high-stakes solutions in both hands-on technical and supervisory positions.
+                </p>
+            </div>
+        </section>
+
+        <!-- Technical Skills & Stack Section -->
+        <section id="skills" class="space-y-6">
+            <div class="flex items-center gap-3">
+                <div class="w-1.5 h-6 bg-brand-amber rounded-full"></div>
+                <h2 class="text-2xl font-bold text-white tracking-tight">Technical Capabilities & Software</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Software Diagnostics -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-blue/50 transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-brand-blue flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h3 class="font-semibold text-white text-lg">Diagnostic Tools</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-slate-800 text-brand-cyan text-xs font-medium rounded-md border border-slate-700">Cummins Insite</span>
+                        <span class="px-3 py-1 bg-slate-800 text-brand-cyan text-xs font-medium rounded-md border border-slate-700">Cummins InPower</span>
+                        <span class="px-3 py-1 bg-slate-800 text-brand-cyan text-xs font-medium rounded-md border border-slate-700">Deep Sea Software Suite</span>
+                        <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-medium rounded-md border border-slate-700">OBD Systems</span>
+                        <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-medium rounded-md border border-slate-700">PLC & PCC Calibration</span>
+                    </div>
+                </div>
+
+                <!-- Electrical & Power Systems -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-amber/50 transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-brand-amber flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-plug-circle-bolt"></i>
+                        </div>
+                        <h3 class="font-semibold text-white text-lg">Electrical Systems</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-slate-800 text-brand-amber text-xs font-medium rounded-md border border-slate-700">Automatic Transfer Switches (ATS)</span>
+                        <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-medium rounded-md border border-slate-700">Synchronization Boards</span>
+                        <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-medium rounded-md border border-slate-700">Electrical Panels</span>
+                        <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-medium rounded-md border border-slate-700">Engine Sensors</span>
+                        <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-medium rounded-md border border-slate-700">Voltage Regulation Devices</span>
+                    </div>
+                </div>
+
+                <!-- Mechanical Systems -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-5 hover:border-brand-cyan/50 transition-colors">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-brand-cyan flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <h3 class="font-semibold text-white text-lg">Engine Overhaul & Maintenance</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-slate-800 text-white text-xs font-medium rounded-md border border-slate-700">QSX 15 & QSK</span>
+                        <span class="px-3 py-1 bg-slate-800 text-white text-xs font-medium rounded-md border border-slate-700">QSL & KTA</span>
+                        <span class="px-3 py-1 bg-slate-800 text-white text-xs font-medium rounded-md border border-slate-700">NTA, ISB, 4BT</span>
+                        <span class="px-3 py-1 bg-slate-800 text-white text-xs font-medium rounded-md border border-slate-700">6BT & 6BTA</span>
+                        <span class="px-3 py-1 bg-slate-800 text-slate-300 text-xs font-medium rounded-md border border-slate-700">PDI Inspection</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work Experience Timeline Section -->
+        <section id="experience" class="space-y-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-1.5 h-6 bg-brand-blue rounded-full"></div>
+                    <h2 class="text-2xl font-bold text-white tracking-tight">Work Experience</h2>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+
+                <!-- Job 1 -->
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-8 space-y-4 hover:border-slate-700 transition-all">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Current Position</span>
+                            <h3 class="text-xl font-bold text-white">Senior Service Engineer – Power Generation</h3>
+                            <p class="text-slate-400 font-medium">Car and General Trading Ltd (Cummins Dealer) | Dar es Salaam, Tanzania</p>
+                        </div>
+                        <span class="inline-block px-3 py-1 bg-brand-blue/10 border border-brand-blue/30 text-brand-cyan text-xs font-medium rounded-full self-start sm:self-auto">
+                            NOV 2022 – PRESENT
+                        </span>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6 text-sm text-slate-300">
+                        <div class="space-y-2 bg-slate-900/40 p-4 rounded-xl border border-slate-800/80">
+                            <div class="font-semibold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-wrench text-brand-amber"></i> Mechanical Domain
+                            </div>
+                            <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-400">
+                                <li>Pre-Delivery Inspection (PDI) of new gensets prior to client dispatch.</li>
+                                <li>Full installation & commissioning of generators & balance-of-plant accessories.</li>
+                                <li>Major OEM spec overhauls on Cummins engines (QSX15, QSK, QSL, KTA, NTA, ISB, 4BT/6BT).</li>
+                                <li>Preventive & corrective maintenance minimizing client downtime.</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2 bg-slate-900/40 p-4 rounded-xl border border-slate-800/80">
+                            <div class="font-semibold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-bolt text-brand-blue"></i> Electrical Domain
+                            </div>
+                            <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-400">
+                                <li>Automatic & Manual changeover installation across critical operational sites.</li>
+                                <li>Large electrical panel boards & complex generator synchronization board setups.</li>
+                                <li>Deep troubleshooting of ATS panels, sensors, regulators & safety protection devices.</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2 bg-slate-900/40 p-4 rounded-xl border border-slate-800/80">
+                            <div class="font-semibold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-microchip text-brand-cyan"></i> Software & Electronics
+                            </div>
+                            <ul class="list-disc list-inside space-y-1.5 text-xs text-slate-400">
+                                <li>Advanced diagnostics using Cummins Insite & Cummins InPower software suite.</li>
+                                <li>PLC & PCC (PowerCommand Control) software calibration and updates.</li>
+                                <li>Deep Sea Controller software programming and telemetry integration.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-8 space-y-4 hover:border-slate-700 transition-all">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Service Engineer – Power Generation</h3>
+                            <p class="text-slate-400 font-medium">Car and General Trading Ltd (Cummins Dealer) | Dar es Salaam, Tanzania</p>
+                        </div>
+                        <span class="inline-block px-3 py-1 bg-slate-800 border border-slate-700 text-slate-300 text-xs font-medium rounded-full self-start sm:self-auto">
+                            FEB 2020 – NOV 2022
+                        </span>
+                    </div>
+
+                    <ul class="grid md:grid-cols-2 gap-3 text-sm text-slate-300 list-disc list-inside">
+                        <li>Strict compliance with occupational safety regulations during power site operations.</li>
+                        <li>Emergency breakdown response to restore continuous power for mission-critical facilities.</li>
+                        <li>Electrical system troubleshooting utilizing digital multimeters and oscilloscope diagnostics.</li>
+                        <li>Root cause failure analysis (RCFA) to mitigate recurring machinery issues.</li>
+                        <li>Detailed technical manual, schematic drawing, and blueprint interpretation.</li>
+                        <li>Regular inspection of backup generators ensuring 100% emergency outage readiness.</li>
+                    </ul>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-8 space-y-4 hover:border-slate-700 transition-all">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Automobile Service Engineer</h3>
+                            <p class="text-slate-400 font-medium">Toyota Tanzania Ltd | Dar es Salaam, Tanzania</p>
+                        </div>
+                        <span class="inline-block px-3 py-1 bg-slate-800 border border-slate-700 text-slate-300 text-xs font-medium rounded-full self-start sm:self-auto">
+                            NOV 2019 – FEB 2020
+                        </span>
+                    </div>
+
+                    <ul class="grid md:grid-cols-2 gap-3 text-sm text-slate-300 list-disc list-inside">
+                        <li>Diagnosed complex engine and transmission malfunctions using computerized OBD scanners.</li>
+                        <li>Performed root cause and failure mode analyses to maintain strict OEM quality standards.</li>
+                        <li>Engine cylinder head removal, gasket replacement, and precision reconditioning.</li>
+                        <li>Electrical wiring harness overhaul, relay panel repair, and sensor replacement.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="space-y-6">
+            <div class="flex items-center gap-3">
+                <div class="w-1.5 h-6 bg-brand-cyan rounded-full"></div>
+                <h2 class="text-2xl font-bold text-white tracking-tight">Education Background</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-2">
+                    <span class="text-xs font-semibold text-brand-blue">2017 – 2021</span>
+                    <h3 class="font-bold text-white text-lg">Bachelor Degree in Automobile Engineering</h3>
+                    <p class="text-sm text-slate-400">National Institute of Transport (NIT)</p>
+                    <p class="text-xs text-slate-500">Dar es Salaam, Tanzania</p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-2">
+                    <span class="text-xs font-semibold text-brand-amber">2015 – 2016</span>
+                    <h3 class="font-bold text-white text-lg">Advanced Certificate of Secondary School (ACSE)</h3>
+                    <p class="text-sm text-slate-400">St. Mathew's Secondary School</p>
+                    <p class="text-xs text-slate-500">Dar es Salaam, Tanzania</p>
+                </div>
+
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-2">
+                    <span class="text-xs font-semibold text-brand-cyan">2011 – 2014</span>
+                    <h3 class="font-bold text-white text-lg">Certificate of Secondary School (CSE)</h3>
+                    <p class="text-sm text-slate-400">Kanyigo Secondary School</p>
+                    <p class="text-xs text-slate-500">Kagera, Tanzania</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Referees Section -->
+        <section id="referees" class="space-y-6">
+            <div class="flex items-center gap-3">
+                <div class="w-1.5 h-6 bg-brand-amber rounded-full"></div>
+                <h2 class="text-2xl font-bold text-white tracking-tight">Professional References</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Referee 1 -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-3">
+                    <div class="w-10 h-10 rounded-full bg-brand-blue/20 text-brand-blue flex items-center justify-center font-bold text-lg">
+                        VN
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white">Eng. Victor Newton</h3>
+                        <p class="text-xs text-brand-cyan font-medium">Senior Service Manager (Cummins)</p>
+                        <p class="text-xs text-slate-400">Car and General Trading Ltd</p>
+                    </div>
+                    <div class="pt-2 text-xs space-y-1 text-slate-300 border-t border-slate-800">
+                        <p><i class="fa-solid fa-phone me-2 text-slate-500"></i>+255 712 900 913</p>
+                        <p class="truncate"><i class="fa-solid fa-envelope me-2 text-slate-500"></i>Victor.anthony@cargen.co.tz</p>
+                    </div>
+                </div>
+
+                <!-- Referee 2 -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-3">
+                    <div class="w-10 h-10 rounded-full bg-brand-amber/20 text-brand-amber flex items-center justify-center font-bold text-lg">
+                        JK
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white">Eng. Joram Kalugira</h3>
+                        <p class="text-xs text-brand-amber font-medium">Fleet Manager</p>
+                        <p class="text-xs text-slate-400">Sagemcom, Tanzania</p>
+                    </div>
+                    <div class="pt-2 text-xs space-y-1 text-slate-300 border-t border-slate-800">
+                        <p><i class="fa-solid fa-phone me-2 text-slate-500"></i>+255 622 933 159</p>
+                        <p class="truncate"><i class="fa-solid fa-envelope me-2 text-slate-500"></i>joramkalugira@gmail.com</p>
+                    </div>
+                </div>
+
+                <!-- Referee 3 -->
+                <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-3">
+                    <div class="w-10 h-10 rounded-full bg-brand-cyan/20 text-brand-cyan flex items-center justify-center font-bold text-lg">
+                        IK
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white">Eng. Illuminata Kaijanante</h3>
+                        <p class="text-xs text-brand-cyan font-medium">Sales & Service Coordinator</p>
+                        <p class="text-xs text-slate-400">Car and General Trading Ltd</p>
+                    </div>
+                    <div class="pt-2 text-xs space-y-1 text-slate-300 border-t border-slate-800">
+                        <p><i class="fa-solid fa-phone me-2 text-slate-500"></i>+255 657 400 000</p>
+                        <p class="truncate"><i class="fa-solid fa-envelope me-2 text-slate-500"></i>Illuminata.kaijanante@cargen.co.tz</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-border bg-[#070A10] py-8 px-4 text-center text-xs text-slate-500">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>© <span id="year"></span> Justus Majula. All rights reserved.</p>
+            <div class="flex gap-4">
+                <span>Languages: English (Fluent), Kiswahili (Native)</span>
             </div>
         </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Justus Majula. All Rights Reserved.</p>
     </footer>
-</div>
 
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
-</html>
+    </html>
