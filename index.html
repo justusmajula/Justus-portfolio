@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justus Majula | Power Generation Engineer</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #0284c7;
+            --accent-hover: #0369a1;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .contact-info a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .job, .edu-item {
+            margin-bottom: 25px;
+        }
+
+        .job:last-child, .edu-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .company-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+            color: var(--text-muted);
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-card {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .skill-card h3 {
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Justus Majula</h1>
+        <div class="subtitle">Power Generation Engineer</div>
+        <div class="contact-info">
+            <span>📍 Dar es Salaam, Tanzania</span>
+            <span>📞 +255 673754410</span>
+            <span>✉️ <a href="mailto:Justusmajula.juc@gmail.com">Justusmajula.juc@gmail.com</a></span>
+        </div>
+    </header>
+
+    <section id="about">
+        <h2>Professional Summary</h2>
+        <p>Power generation engineer with Cummins products with over 5 years of experience dealing with Engines, Generators, ATS (Automatic Transfer Switch), PLC (Programmable Logic Controller), and OBD (On-Board Diagnostics). Throughout my career, I have successfully contributed to various power projects with clients across hospitals, communications towers, and construction sites. Skilled in performance data analysis, identifying improvements, and delivering hands-on technical solutions and supervisory leadership.</p>
+    </section>
+
+    <section id="experience">
+        <h2>Work Experience</h2>
+
+        <div class="job">
+            <div class="job-title">Senior Service Engineer – Power Generation Department</div>
+            <div class="company-date">Car & General Trading Ltd (Cummins Dealer) | Nov 2022 – Present</div>
+            <ul>
+                <li><strong>Mechanical:</strong> Pre-Delivery Inspection (PDI) of new generator sets, equipment installation, preventive and corrective maintenance per OEM specifications, and major engine overhauls (QSX 15, QSK, QSL, KTA, NTA, ISB, 4BT, 6BT, 6BTA).</li>
+                <li><strong>Electrical:</strong> Installation and troubleshooting of ATS, manual changeovers, synchronization boards, large electrical panels, and engine protection/regulation sensors.</li>
+                <li><strong>Software & Control Systems:</strong> Engine and generator diagnostics via OBD; PLC and PowerCommand Control (PCC) updating and calibration using Cummins INSITE, Cummins INPOWER, and Deep Sea Software Suite.</li>
+            </ul>
+        </div>
+
+        <div class="job">
+            <div class="job-title">Service Engineer – Power Generation Department</div>
+            <div class="company-date">Car & General Trading Ltd (Cummins Dealer) | Feb 2020 – Nov 2022</div>
+            <ul>
+                <li>Ensured strict safety compliance during maintenance and emergency breakdown responses to minimize downtime.</li>
+                <li>Diagnosed mechanical and electrical issues using digital multimeters and technical manual blueprints.</li>
+                <li>Inspected facility and backup generators for outage readiness and performed root-cause analysis on equipment failures.</li>
+            </ul>
+        </div>
+
+        <div class="job">
+            <div class="job-title">Automobile Service Engineer</div>
+            <div class="company-date">Toyota Tanzania Ltd | Nov 2019 – Feb 2020</div>
+            <ul>
+                <li>Provided customer technical support, vehicle inspections, and computer-diagnosed mechanical and electrical troubleshooting.</li>
+                <li>Executed root cause analysis to establish quality control measures and performed scheduled repairs (brakes, suspensions, wiring harnesses).</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2>Education</h2>
+        <div class="edu-item">
+            <div class="job-title">Bachelor Degree in Automobile Engineering</div>
+            <div class="company-date">National Institute of Transport (NIT) | 2017 – 2021</div>
+        </div>
+        <div class="edu-item">
+            <div class="job-title">Advanced Certificate of Secondary Education (ACSE)</div>
+            <div class="company-date">St. Mathew's Secondary School | 2015 – 2016</div>
+        </div>
+        <div class="edu-item">
+            <div class="job-title">Certificate of Secondary School (CSE)</div>
+            <div class="company-date">Kanyigo Secondary School | 2011 – 2014</div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Technical Skills & Tools</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>Core Engineering</h3>
+                <p>Power Generation, Diesel Engines, ATS, Synchronization Boards, PLC Systems</p>
+            </div>
+            <div class="skill-card">
+                <h3>Diagnostic Tools</h3>
+                <p>Cummins INSITE, Cummins INPOWER, Deep Sea Software Suite, OBD Tools</p>
+            </div>
+            <div class="skill-card">
+                <h3>Languages</h3>
+                <p>English, Kiswahili</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Justus Majula. All Rights Reserved.</p>
+    </footer>
+</div>
+
+</body>
+</html>
