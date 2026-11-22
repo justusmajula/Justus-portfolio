@@ -38,18 +38,29 @@
             background-color: #060913;
             color: #f8fafc;
             font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
-        .active-tab {
+        /* Active pill gradient applied to #tab-slider and explicit active tab buttons */
+        #tab-slider,
+        .tab-btn[aria-selected="true"],
+        .tab-btn.is-active {
             background: linear-gradient(135deg, #0070f3 0%, #06b6d4 100%);
             color: #ffffff;
             box-shadow: 0 4px 20px -2px rgba(6, 182, 212, 0.5);
         }
         .tab-btn {
-            transition: color 0.35s ease;
+            transition: color 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease;
             cursor: pointer;
+            position: relative;
+            z-index: 2;
         }
         .tab-pill-slider {
-            transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), width 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+            position: absolute;
+            top: 6px;
+            bottom: 6px;
+            left: 0;
+            z-index: 1;
+            transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform, width;
         }
         .card-glow {
@@ -96,7 +107,8 @@
         }
 
         .animate-tab-slide {
-            animation: smoothSlideHorizontal 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            opacity: 1;
+            animation: smoothSlideHorizontal 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
             will-change: transform, opacity;
         }
 
@@ -609,15 +621,15 @@
 
         <!-- Navigation Tabs -->
         <div id="tab-nav-wrapper" class="flex justify-center mb-8 animate-fade-in animate-delay-1">
-            <div role="tablist" aria-label="Portfolio sections" class="bg-slate-950/90 p-1.5 rounded-full border border-cyan-500/20 inline-flex items-center max-w-full shadow-xl shadow-cyan-500/5 backdrop-blur-md relative">
+            <div id="tab-list" role="tablist" aria-label="Portfolio sections" class="bg-slate-950/90 p-1.5 rounded-full border border-cyan-500/20 inline-flex items-center max-w-full shadow-xl shadow-cyan-500/5 backdrop-blur-md relative">
                 <!-- Sliding Pill Indicator -->
-                <div id="tab-slider" class="tab-pill-slider active-tab absolute top-1.5 bottom-1.5 left-0 rounded-full pointer-events-none"></div>
+                <div id="tab-slider" class="tab-pill-slider rounded-full pointer-events-none"></div>
 
-                <button type="button" role="tab" aria-selected="true" onclick="switchTab('resume')" id="btn-resume" class="tab-btn relative z-10 text-white py-2.5 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold text-center flex items-center justify-center space-x-2">
+                <button type="button" role="tab" aria-selected="true" data-tab-target="resume" onclick="switchTab('resume')" id="btn-resume" class="tab-btn is-active text-white py-2.5 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold text-center flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-file-lines text-sm"></i>
                     <span class="tracking-wide">Resume</span>
                 </button>
-                <button type="button" role="tab" aria-selected="false" onclick="switchTab('projects')" id="btn-projects" class="tab-btn relative z-10 text-slate-400 hover:text-cyan-300 py-2.5 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold text-center flex items-center justify-center space-x-2">
+                <button type="button" role="tab" aria-selected="false" data-tab-target="projects" onclick="switchTab('projects')" id="btn-projects" class="tab-btn text-slate-400 hover:text-cyan-300 py-2.5 px-5 sm:px-7 rounded-full text-xs sm:text-sm font-bold text-center flex items-center justify-center space-x-2">
                     <span class="relative inline-flex items-center justify-center w-5 h-4 shrink-0">
                         <i class="fa-solid fa-gear text-[12px] gear-spin -mr-0.5 -mt-1"></i>
                         <i class="fa-solid fa-gear text-[9px] gear-spin-reverse mt-1.5"></i>
@@ -628,7 +640,7 @@
         </div>
 
         <!-- SECTION 1: RESUME -->
-        <div id="section-resume" role="tabpanel" class="space-y-8 animate-fade-in animate-delay-2">
+        <div id="section-resume" role="tabpanel" aria-labelledby="btn-resume" class="space-y-8 animate-fade-in animate-delay-2">
 
             <!-- Summary -->
             <div class="bg-gradient-to-br from-slate-900 to-[#0e1628] border border-slate-800 rounded-2xl p-6 sm:p-8 card-glow">
@@ -903,7 +915,7 @@
         </div>
 
         <!-- SECTION 2: PROJECTS -->
-        <div id="section-projects" role="tabpanel" class="space-y-6 hidden animate-fade-in">
+        <div id="section-projects" role="tabpanel" aria-labelledby="btn-projects" class="space-y-6 hidden animate-fade-in">
             <!-- Admin Cloud Sync Status Banner (Visible only in Edit Mode) -->
             <div id="cloud-status-banner" class="bg-slate-900/90 border border-cyan-500/30 rounded-2xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
                 <div class="flex items-center gap-2.5">
@@ -1253,8 +1265,8 @@
     <script>
         // =========================================================================
         // CLOUDINARY-ONLY STORAGE & ADMIN CONFIGURATION
-        // Replace CLOUDINARY_UPLOAD_PRESET with your unsigned preset name so anyone
-        // who opens your portfolio link automatically fetches your uploaded photos.
+        // Anyone who opens your portfolio link automatically fetches your uploaded
+        // photos by project tag from Cloudinary.
         // Note: In Cloudinary Settings -> Security -> Restricted media types,
         // uncheck "Resource list" so public visitors can load tagged project galleries.
         // =========================================================================
@@ -1289,7 +1301,40 @@
         }
 
         function showToast(message, variant = 'error') {
-// ... existing code ... -->
+            const banner = document.getElementById('toast-banner');
+            const textEl = document.getElementById('toast-message');
+            if (!banner || !textEl) return;
+            const iconEl = banner.querySelector('i');
+
+            banner.classList.remove('border-rose-500/50', 'border-cyan-500/50', 'border-emerald-500/50');
+            if (iconEl) {
+                iconEl.className = 'text-base shrink-0';
+                if (variant === 'success') {
+                    banner.classList.add('border-emerald-500/50');
+                    iconEl.classList.add('fa-solid', 'fa-circle-check', 'text-emerald-400');
+                } else if (variant === 'info') {
+                    banner.classList.add('border-cyan-500/50');
+                    iconEl.classList.add('fa-solid', 'fa-circle-info', 'text-cyan-400');
+                } else {
+                    banner.classList.add('border-rose-500/50');
+                    iconEl.classList.add('fa-solid', 'fa-circle-exclamation', 'text-rose-400');
+                }
+            }
+
+            textEl.textContent = message;
+            banner.classList.remove('hidden');
+            banner.classList.add('flex');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(hideToast, 4500);
+        }
+
+        function hideToast() {
+            const banner = document.getElementById('toast-banner');
+            if (!banner) return;
+            banner.classList.add('hidden');
+            banner.classList.remove('flex');
+        }
+
         function updateCloudStatusUI() {
             const dot = document.getElementById('cloud-status-dot');
             const text = document.getElementById('cloud-status-text');
@@ -1305,7 +1350,86 @@
         }
 
         function setEditMode(enabled) {
-// ... existing code ... -->
+            isEditMode = Boolean(enabled);
+            document.body.classList.toggle('edit-mode', isEditMode);
+
+            const btn = document.getElementById('edit-mode-btn');
+            const icon = document.getElementById('edit-mode-icon');
+            const label = document.getElementById('edit-mode-label');
+
+            if (btn && icon && label) {
+                if (isEditMode) {
+                    btn.classList.remove('bg-slate-800/80', 'text-slate-300', 'border-slate-700');
+                    btn.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/50');
+                    icon.className = 'fa-solid fa-unlock text-emerald-400';
+                    label.textContent = 'Lock Edits';
+                    btn.title = 'Lock Admin Edit Mode';
+                } else {
+                    btn.classList.add('bg-slate-800/80', 'text-slate-300', 'border-slate-700');
+                    btn.classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/50');
+                    icon.className = 'fa-solid fa-lock text-amber-400';
+                    label.textContent = 'Edit Mode';
+                    btn.title = 'Unlock Admin Edit Mode to upload or delete site photos';
+                }
+            }
+
+            try {
+                if (isEditMode) {
+                    sessionStorage.setItem(EDIT_SESSION_KEY, '1');
+                } else {
+                    sessionStorage.removeItem(EDIT_SESSION_KEY);
+                }
+            } catch {
+                // Ignore sessionStorage restrictions
+            }
+
+            updateCloudStatusUI();
+            renderAllProjectPhotos();
+        }
+
+        function handleEditModeClick() {
+            if (isEditMode) {
+                setEditMode(false);
+                showToast('Edit Mode locked. Portfolio is now in visitor read-only view.', 'info');
+                return;
+            }
+            const modal = document.getElementById('passcode-modal');
+            const input = document.getElementById('admin-passcode-input');
+            const errorEl = document.getElementById('passcode-error');
+            if (!modal) return;
+            if (errorEl) errorEl.classList.add('hidden');
+            if (input) input.value = '';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => input && input.focus(), 50);
+        }
+
+        function closePasscodeModal(event) {
+            if (event && event.target && event.target.id !== 'passcode-modal') return;
+            const modal = document.getElementById('passcode-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function submitPasscode(event) {
+            event.preventDefault();
+            const input = document.getElementById('admin-passcode-input');
+            const errorEl = document.getElementById('passcode-error');
+            const entered = input ? input.value.trim() : '';
+
+            if (entered === ADMIN_PASSCODE) {
+                closePasscodeModal();
+                setEditMode(true);
+                if (currentTab !== 'projects') {
+                    switchTab('projects');
+                }
+                showToast('Admin Edit Mode unlocked.', 'success');
+            } else if (errorEl) {
+                errorEl.classList.remove('hidden');
+            }
+        }
+
         function loadLocalFallbackPhotos() {
             try {
                 const raw = localStorage.getItem(PHOTO_STORAGE_KEY);
@@ -1448,7 +1572,52 @@
         }
 
         function setCardUploadingState(projectId, uploading) {
-// ... existing code ... -->
+            const card = document.querySelector(`.project-card[data-project-id="${projectId}"]`);
+            if (!card) return;
+            const btnText = card.querySelector('.upload-btn-text');
+            const input = card.querySelector('.project-photo-input');
+            if (btnText) {
+                btnText.textContent = uploading ? 'Uploading...' : 'Add Picture';
+            }
+            if (input) {
+                input.disabled = uploading;
+            }
+        }
+
+        function compressImageFile(file, maxDim = 1200, quality = 0.82) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > maxDim || height > maxDim) {
+                            if (width > height) {
+                                height = Math.round((height * maxDim) / width);
+                                width = maxDim;
+                            } else {
+                                width = Math.round((width * maxDim) / height);
+                                height = maxDim;
+                            }
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve({
+                            name: file.name,
+                            dataUrl: canvas.toDataURL('image/jpeg', quality)
+                        });
+                    };
+                    img.onerror = reject;
+                    img.src = reader.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
         async function addFilesToProject(fileList, projectId) {
             if (!isEditMode) {
                 showToast('Unlock Edit Mode first to upload site photos.', 'info');
@@ -1515,7 +1684,28 @@
         }
 
         function handlePhotoUpload(event, projectId) {
-// ... existing code ... -->
+            addFilesToProject(event.target.files, projectId);
+            event.target.value = '';
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            if (!isEditMode) return;
+            event.currentTarget.classList.add('border-cyan-400', 'bg-cyan-500/10');
+        }
+
+        function handleDragLeave(event) {
+            event.currentTarget.classList.remove('border-cyan-400', 'bg-cyan-500/10');
+        }
+
+        function handleDrop(event, projectId) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('border-cyan-400', 'bg-cyan-500/10');
+            if (event.dataTransfer && event.dataTransfer.files) {
+                addFilesToProject(event.dataTransfer.files, projectId);
+            }
+        }
+
         async function removeProjectPhoto(projectId, photoId, event) {
             event.stopPropagation();
             if (!isEditMode || !Array.isArray(projectPhotos[projectId])) return;
@@ -1533,4 +1723,243 @@
         }
 
         function renderProjectPhotos(projectId) {
-// ... existing code ... -->
+            const card = document.querySelector(`.project-card[data-project-id="${projectId}"]`);
+            if (!card) return;
+
+            const photos = projectPhotos[projectId] || [];
+            const countEl = card.querySelector('.photo-count');
+            const galleryEl = card.querySelector('.project-photo-gallery');
+            const projectTitle = card.dataset.projectTitle || 'Project Photo';
+
+            if (countEl) {
+                countEl.textContent = photos.length;
+            }
+            if (!galleryEl) return;
+
+            galleryEl.innerHTML = '';
+
+            if (isLoadingPhotos) {
+                galleryEl.innerHTML = '<div class="col-span-full text-xs text-slate-400 py-2 flex items-center gap-2"><i class="fa-solid fa-spinner fa-spin text-cyan-400"></i> Loading site photos...</div>';
+                return;
+            }
+
+            if (photos.length === 0 && !isEditMode) {
+                galleryEl.innerHTML = '<p class="col-span-full text-[11px] text-slate-500 italic">No site photos uploaded yet.</p>';
+                return;
+            }
+
+            photos.forEach(photo => {
+                const item = document.createElement('div');
+                item.className = 'group relative rounded-xl overflow-hidden border border-slate-700/80 bg-slate-950 h-24 cursor-pointer';
+                item.onclick = () => openLightbox(photo.src, `${projectTitle} — ${photo.name}`);
+
+                const img = document.createElement('img');
+                img.src = photo.src;
+                img.alt = photo.name;
+                img.loading = 'lazy';
+                img.className = 'project-photo-thumb w-full h-24 object-cover group-hover:scale-105 transition duration-300';
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'photo-remove-btn absolute top-1.5 right-1.5 w-6 h-6 rounded-md bg-slate-950/85 hover:bg-rose-600 text-slate-200 hover:text-white flex items-center justify-center text-xs transition';
+                removeBtn.title = 'Remove photo';
+                removeBtn.setAttribute('aria-label', `Remove ${photo.name}`);
+                removeBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+                removeBtn.onclick = (e) => removeProjectPhoto(projectId, photo.id, e);
+
+                item.appendChild(img);
+                item.appendChild(removeBtn);
+                galleryEl.appendChild(item);
+            });
+        }
+
+        function renderAllProjectPhotos() {
+            document.querySelectorAll('.project-card[data-project-id]').forEach(card => {
+                renderProjectPhotos(card.dataset.projectId);
+            });
+        }
+
+        function openLightbox(src, caption) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            const cap = document.getElementById('lightbox-caption');
+            if (!modal || !img) return;
+            img.src = src;
+            if (cap) cap.textContent = caption;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLightbox(event) {
+            if (event && event.target && event.target.id !== 'lightbox-modal') return;
+            const modal = document.getElementById('lightbox-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closePasscodeModal();
+            }
+        });
+
+        function positionTabSlider(btn) {
+            const tabSlider = document.getElementById('tab-slider');
+            if (!tabSlider || !btn) return;
+            const width = btn.offsetWidth;
+            const left = btn.offsetLeft;
+            if (width > 0) {
+                tabSlider.style.width = `${width}px`;
+                tabSlider.style.transform = `translateX(${left}px)`;
+            }
+        }
+
+        function setSectionVisibility(sectionEl, visible, animateEntry) {
+            if (!sectionEl) return;
+            sectionEl.classList.remove('animate-fade-in', 'animate-delay-2', 'animate-tab-slide');
+            if (visible) {
+                sectionEl.classList.remove('hidden');
+                sectionEl.style.display = '';
+                sectionEl.style.opacity = '1';
+                if (animateEntry) {
+                    void sectionEl.offsetWidth;
+                    sectionEl.classList.add('animate-tab-slide');
+                }
+            } else {
+                sectionEl.classList.add('hidden');
+                sectionEl.style.display = 'none';
+            }
+        }
+
+        function updateTabButtonStates(activeTabName) {
+            const tabConfig = [
+                { name: 'resume', btn: document.getElementById('btn-resume') },
+                { name: 'projects', btn: document.getElementById('btn-projects') }
+            ];
+
+            tabConfig.forEach(({ name, btn }) => {
+                if (!btn) return;
+                const isSelected = name === activeTabName;
+                btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+                btn.classList.toggle('is-active', isSelected);
+                btn.classList.toggle('text-white', isSelected);
+                btn.classList.toggle('text-slate-400', !isSelected);
+            });
+
+            const activeEntry = tabConfig.find(item => item.name === activeTabName);
+            if (activeEntry && activeEntry.btn) {
+                positionTabSlider(activeEntry.btn);
+                requestAnimationFrame(() => positionTabSlider(activeEntry.btn));
+            }
+        }
+
+        function switchTab(tabName, options = {}) {
+            const animateEntry = options.animateEntry !== false;
+            const normalizedTab = tabName === 'projects' ? 'projects' : 'resume';
+            currentTab = normalizedTab;
+
+            const resumeSec = document.getElementById('section-resume');
+            const projectsSec = document.getElementById('section-projects');
+
+            try {
+                const showProjects = normalizedTab === 'projects';
+                setSectionVisibility(resumeSec, !showProjects, !showProjects && animateEntry);
+                setSectionVisibility(projectsSec, showProjects, showProjects && animateEntry);
+                updateTabButtonStates(normalizedTab);
+            } catch {
+                // Guaranteed fallback so tab panels always toggle cleanly
+                const showProjects = normalizedTab === 'projects';
+                if (resumeSec) {
+                    resumeSec.classList.toggle('hidden', showProjects);
+                    resumeSec.style.display = showProjects ? 'none' : '';
+                }
+                if (projectsSec) {
+                    projectsSec.classList.toggle('hidden', !showProjects);
+                    projectsSec.style.display = showProjects ? '' : 'none';
+                }
+                updateTabButtonStates(normalizedTab);
+            }
+        }
+
+        function bindTabClickDelegation() {
+            const tabList = document.getElementById('tab-list');
+            if (!tabList || tabList.dataset.bound === '1') return;
+            tabList.dataset.bound = '1';
+
+            tabList.addEventListener('click', (event) => {
+                const btn = event.target.closest('button[data-tab-target]');
+                if (!btn) return;
+                const targetTab = btn.getAttribute('data-tab-target');
+                if (targetTab) {
+                    switchTab(targetTab);
+                }
+            });
+        }
+
+        function syncActiveTabSlider() {
+            try {
+                const activeBtn = document.getElementById(currentTab === 'projects' ? 'btn-projects' : 'btn-resume');
+                positionTabSlider(activeBtn);
+            } catch {
+                // Ignore slider layout errors
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            bindTabClickDelegation();
+
+            let unlockedInSession = false;
+            try {
+                unlockedInSession = sessionStorage.getItem(EDIT_SESSION_KEY) === '1';
+            } catch {
+                unlockedInSession = false;
+            }
+
+            try {
+                setEditMode(unlockedInSession);
+            } catch {
+                // Continue rendering even if edit mode UI fails
+            }
+
+            try {
+                switchTab(currentTab, { animateEntry: false });
+                syncActiveTabSlider();
+            } catch {
+                // Ensure default tab is accessible
+            }
+
+            try {
+                await loadStoredPhotos();
+                renderAllProjectPhotos();
+            } catch {
+                // Non-blocking cloud photo load fallback
+            }
+        });
+        window.addEventListener('load', syncActiveTabSlider);
+        window.addEventListener('resize', syncActiveTabSlider);
+
+        function toggleTheme() {
+            try {
+                const body = document.body;
+                const themeIcon = document.getElementById('theme-icon');
+                if (!body) return;
+                body.classList.toggle('light-mode');
+
+                if (themeIcon) {
+                    if (body.classList.contains('light-mode')) {
+                        themeIcon.classList.remove('fa-sun');
+                        themeIcon.classList.add('fa-moon');
+                    } else {
+                        themeIcon.classList.remove('fa-moon');
+                        themeIcon.classList.add('fa-sun');
+                    }
+                }
+            } catch {
+                // Ignore theme toggle errors
+            }
+        }
+    </script>
+</body>
+    </html>
