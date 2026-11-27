@@ -354,6 +354,11 @@
             background-color: #ffffff !important;
             border-color: #cbd5e1 !important;
         }
+        body.light-mode #admin-passcode-input {
+            background-color: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
 
         /* Edit Mode Visibility Controls */
         body:not(.edit-mode) .upload-controls,
@@ -460,19 +465,64 @@
                 display: flex !important;
             }
             /* Cards & Sections */
-            #section-resume > div,
+            #section-resume > div:not(.grid),
+            #section-resume .print-avoid-break > div,
+            #section-resume .card-glow,
             #section-projects .project-card,
-            body.light-mode #section-resume > div,
+            body.light-mode #section-resume > div:not(.grid),
+            body.light-mode #section-resume .print-avoid-break > div,
+            body.light-mode #section-resume .card-glow,
             body.light-mode #section-projects .project-card {
-                background: #ffffff !important;
+                background-color: #ffffff !important;
                 background-image: none !important;
                 border: 1.5px solid #cbd5e1 !important;
                 border-top: 4px solid #0284c7 !important;
                 border-radius: 12px !important;
                 padding: 14px 18px !important;
                 margin-bottom: 14px !important;
+                color: #0f172a !important;
                 box-shadow: none !important;
                 transform: none !important;
+            }
+            /* Keep Education & Languages grid container transparent in print */
+            #section-resume > div.grid,
+            body.light-mode #section-resume > div.grid {
+                background: transparent !important;
+                background-image: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin-bottom: 0 !important;
+                box-shadow: none !important;
+            }
+            /* Ensure Education & Languages text, borders, and progress bars are light & legible */
+            #section-resume .print-avoid-break h3,
+            #section-resume .print-avoid-break h4,
+            body.light-mode #section-resume .print-avoid-break h3,
+            body.light-mode #section-resume .print-avoid-break h4 {
+                color: #0f172a !important;
+            }
+            #section-resume .print-avoid-break p,
+            #section-resume .print-avoid-break span,
+            body.light-mode #section-resume .print-avoid-break p,
+            body.light-mode #section-resume .print-avoid-break span {
+                color: #334155 !important;
+            }
+            #section-resume .print-avoid-break .text-cyan-400,
+            body.light-mode #section-resume .print-avoid-break .text-cyan-400 {
+                color: #0284c7 !important;
+            }
+            #section-resume .print-avoid-break .border-slate-800,
+            body.light-mode #section-resume .print-avoid-break .border-slate-800 {
+                border-color: #cbd5e1 !important;
+            }
+            #section-resume .print-avoid-break .bg-slate-950,
+            body.light-mode #section-resume .print-avoid-break .bg-slate-950 {
+                background-color: #e2e8f0 !important;
+                border-color: #94a3b8 !important;
+            }
+            #section-resume .print-avoid-break .bg-gradient-to-r.from-cyan-500.to-blue-500 {
+                background-image: none !important;
+                background-color: #0284c7 !important;
             }
             .project-photo-thumb {
                 height: 110px !important;
@@ -541,6 +591,46 @@
                 background-color: #e0f2fe !important;
                 color: #0369a1 !important;
             }
+            /* Final override for Education & Languages cards in print */
+            #section-resume .grid.print-avoid-break > div,
+            #section-resume .grid.print-avoid-break > div * {
+                box-shadow: none !important;
+            }
+            #section-resume .grid.print-avoid-break > div {
+                background: #ffffff !important;
+                background-color: #ffffff !important;
+                background-image: none !important;
+                border: 1.5px solid #cbd5e1 !important;
+                border-top: 4px solid #0284c7 !important;
+                color: #0f172a !important;
+            }
+            #section-resume .grid.print-avoid-break .border-b,
+            #section-resume .grid.print-avoid-break .border-slate-800 {
+                border-color: #cbd5e1 !important;
+            }
+            #section-resume .grid.print-avoid-break h3,
+            #section-resume .grid.print-avoid-break h4,
+            #section-resume .grid.print-avoid-break .text-white {
+                color: #0f172a !important;
+            }
+            #section-resume .grid.print-avoid-break p,
+            #section-resume .grid.print-avoid-break span:not(.text-cyan-400) {
+                color: #334155 !important;
+            }
+            #section-resume .grid.print-avoid-break .text-cyan-400 {
+                color: #0284c7 !important;
+            }
+            #section-resume .grid.print-avoid-break .bg-slate-950 {
+                background: #e2e8f0 !important;
+                background-color: #e2e8f0 !important;
+                background-image: none !important;
+                border-color: #94a3b8 !important;
+            }
+            #section-resume .grid.print-avoid-break .bg-gradient-to-r {
+                background: #0284c7 !important;
+                background-color: #0284c7 !important;
+                background-image: none !important;
+            }
         }
     </style>
 </head>
@@ -571,9 +661,9 @@
                     </div>
                 </div>
 
-                <!-- Theme Toggle & Print Buttons -->
+                <!-- Edit Mode, Theme Toggle & Print Buttons -->
                 <div class="flex items-center space-x-2.5 sm:space-x-3">
-                    <button type="button" onclick="handleEditModeClick()" id="edit-mode-btn" class="flex items-center space-x-2 px-3 sm:px-3.5 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs sm:text-sm font-semibold transition-all duration-200 shadow-md" aria-label="Toggle Admin Edit Mode" title="Unlock Admin Edit Mode to upload or delete site photos">
+                    <button type="button" onclick="handleEditModeClick()" id="edit-mode-btn" class="flex items-center space-x-2 px-3 sm:px-3.5 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs sm:text-sm font-semibold transition-all duration-200 shadow-md" aria-label="Toggle Admin Edit Mode" title="Unlock Admin Edit Mode to upload or delete site media">
                         <i class="fa-solid fa-lock text-amber-400" id="edit-mode-icon"></i>
                         <span id="edit-mode-label" class="hidden md:inline">Edit Mode</span>
                     </button>
@@ -932,7 +1022,7 @@
                     <span id="cloud-status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0"></span>
                     <span id="cloud-status-text" class="text-slate-300 font-medium">Checking storage configuration...</span>
                 </div>
-                <span class="text-[11px] text-slate-400">Admin Edit Mode Active • Changes apply to gallery immediately</span>
+                <span class="text-[11px] text-slate-400">Admin Edit Mode • Prefix files 01-, 02- to order across devices</span>
             </div>
 
             <div id="print-projects-header" class="hidden items-center space-x-3 border-b-2 border-cyan-600 pb-2 mb-4">
@@ -968,22 +1058,22 @@
                         </div>
                     </div>
 
-                    <!-- Add / Upload Picture Segment -->
+                    <!-- Add / Upload Media Segment -->
                     <div class="mt-5 pt-4 border-t border-slate-800/80 space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-images"></i> Site Photos (<span class="photo-count">0</span>)
+                                <i class="fa-solid fa-photo-film"></i> Site Media (<span class="photo-count">0</span>)
                             </span>
                             <div class="upload-controls">
                                 <label class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 transition">
                                     <i class="fa-solid fa-cloud-arrow-up"></i>
-                                    <span class="upload-btn-text">Add Picture</span>
-                                    <input type="file" accept="image/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-1')">
+                                    <span class="upload-btn-text">Add Media</span>
+                                    <input type="file" accept="image/*,video/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-1')">
                                 </label>
                             </div>
                         </div>
                         <div class="upload-controls upload-dropzone rounded-xl border border-dashed border-slate-700/90 bg-slate-950/50 px-3 py-2.5 text-center text-[11px] text-slate-400 transition" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'proj-1')">
-                            Drag &amp; drop site photos here, or click <strong class="text-cyan-300">Add Picture</strong>
+                            Drag &amp; drop site photos or videos here, or click <strong class="text-cyan-300">Add Media</strong>
                         </div>
                         <div class="project-photo-gallery grid grid-cols-2 sm:grid-cols-3 gap-2.5"></div>
                     </div>
@@ -1011,22 +1101,22 @@
                         </div>
                     </div>
 
-                    <!-- Add / Upload Picture Segment -->
+                    <!-- Add / Upload Media Segment -->
                     <div class="mt-5 pt-4 border-t border-slate-800/80 space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-images"></i> Site Photos (<span class="photo-count">0</span>)
+                                <i class="fa-solid fa-photo-film"></i> Site Media (<span class="photo-count">0</span>)
                             </span>
                             <div class="upload-controls">
                                 <label class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 transition">
                                     <i class="fa-solid fa-cloud-arrow-up"></i>
-                                    <span class="upload-btn-text">Add Picture</span>
-                                    <input type="file" accept="image/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-2')">
+                                    <span class="upload-btn-text">Add Media</span>
+                                    <input type="file" accept="image/*,video/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-2')">
                                 </label>
                             </div>
                         </div>
                         <div class="upload-controls upload-dropzone rounded-xl border border-dashed border-slate-700/90 bg-slate-950/50 px-3 py-2.5 text-center text-[11px] text-slate-400 transition" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'proj-2')">
-                            Drag &amp; drop site photos here, or click <strong class="text-indigo-300">Add Picture</strong>
+                            Drag &amp; drop site photos or videos here, or click <strong class="text-indigo-300">Add Media</strong>
                         </div>
                         <div class="project-photo-gallery grid grid-cols-2 sm:grid-cols-3 gap-2.5"></div>
                     </div>
@@ -1054,22 +1144,22 @@
                         </div>
                     </div>
 
-                    <!-- Add / Upload Picture Segment -->
+                    <!-- Add / Upload Media Segment -->
                     <div class="mt-5 pt-4 border-t border-slate-800/80 space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-images"></i> Site Photos (<span class="photo-count">0</span>)
+                                <i class="fa-solid fa-photo-film"></i> Site Media (<span class="photo-count">0</span>)
                             </span>
                             <div class="upload-controls">
                                 <label class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 transition">
                                     <i class="fa-solid fa-cloud-arrow-up"></i>
-                                    <span class="upload-btn-text">Add Picture</span>
-                                    <input type="file" accept="image/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-3')">
+                                    <span class="upload-btn-text">Add Media</span>
+                                    <input type="file" accept="image/*,video/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-3')">
                                 </label>
                             </div>
                         </div>
                         <div class="upload-controls upload-dropzone rounded-xl border border-dashed border-slate-700/90 bg-slate-950/50 px-3 py-2.5 text-center text-[11px] text-slate-400 transition" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'proj-3')">
-                            Drag &amp; drop site photos here, or click <strong class="text-purple-300">Add Picture</strong>
+                            Drag &amp; drop site photos or videos here, or click <strong class="text-purple-300">Add Media</strong>
                         </div>
                         <div class="project-photo-gallery grid grid-cols-2 sm:grid-cols-3 gap-2.5"></div>
                     </div>
@@ -1097,22 +1187,22 @@
                         </div>
                     </div>
 
-                    <!-- Add / Upload Picture Segment -->
+                    <!-- Add / Upload Media Segment -->
                     <div class="mt-5 pt-4 border-t border-slate-800/80 space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-images"></i> Site Photos (<span class="photo-count">0</span>)
+                                <i class="fa-solid fa-photo-film"></i> Site Media (<span class="photo-count">0</span>)
                             </span>
                             <div class="upload-controls">
                                 <label class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition">
                                     <i class="fa-solid fa-cloud-arrow-up"></i>
-                                    <span class="upload-btn-text">Add Picture</span>
-                                    <input type="file" accept="image/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-4')">
+                                    <span class="upload-btn-text">Add Media</span>
+                                    <input type="file" accept="image/*,video/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-4')">
                                 </label>
                             </div>
                         </div>
                         <div class="upload-controls upload-dropzone rounded-xl border border-dashed border-slate-700/90 bg-slate-950/50 px-3 py-2.5 text-center text-[11px] text-slate-400 transition" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'proj-4')">
-                            Drag &amp; drop site photos here, or click <strong class="text-emerald-300">Add Picture</strong>
+                            Drag &amp; drop site photos or videos here, or click <strong class="text-emerald-300">Add Media</strong>
                         </div>
                         <div class="project-photo-gallery grid grid-cols-2 sm:grid-cols-3 gap-2.5"></div>
                     </div>
@@ -1140,22 +1230,22 @@
                         </div>
                     </div>
 
-                    <!-- Add / Upload Picture Segment -->
+                    <!-- Add / Upload Media Segment -->
                     <div class="mt-5 pt-4 border-t border-slate-800/80 space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-images"></i> Site Photos (<span class="photo-count">0</span>)
+                                <i class="fa-solid fa-photo-film"></i> Site Media (<span class="photo-count">0</span>)
                             </span>
                             <div class="upload-controls">
                                 <label class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 transition">
                                     <i class="fa-solid fa-cloud-arrow-up"></i>
-                                    <span class="upload-btn-text">Add Picture</span>
-                                    <input type="file" accept="image/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-5')">
+                                    <span class="upload-btn-text">Add Media</span>
+                                    <input type="file" accept="image/*,video/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-5')">
                                 </label>
                             </div>
                         </div>
                         <div class="upload-controls upload-dropzone rounded-xl border border-dashed border-slate-700/90 bg-slate-950/50 px-3 py-2.5 text-center text-[11px] text-slate-400 transition" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'proj-5')">
-                            Drag &amp; drop site photos here, or click <strong class="text-amber-300">Add Picture</strong>
+                            Drag &amp; drop site photos or videos here, or click <strong class="text-amber-300">Add Media</strong>
                         </div>
                         <div class="project-photo-gallery grid grid-cols-2 sm:grid-cols-3 gap-2.5"></div>
                     </div>
@@ -1183,22 +1273,22 @@
                         </div>
                     </div>
 
-                    <!-- Add / Upload Picture Segment -->
+                    <!-- Add / Upload Media Segment -->
                     <div class="mt-5 pt-4 border-t border-slate-800/80 space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-images"></i> Site Photos (<span class="photo-count">0</span>)
+                                <i class="fa-solid fa-photo-film"></i> Site Media (<span class="photo-count">0</span>)
                             </span>
                             <div class="upload-controls">
                                 <label class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 transition">
                                     <i class="fa-solid fa-cloud-arrow-up"></i>
-                                    <span class="upload-btn-text">Add Picture</span>
-                                    <input type="file" accept="image/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-6')">
+                                    <span class="upload-btn-text">Add Media</span>
+                                    <input type="file" accept="image/*,video/*" multiple class="hidden project-photo-input" onchange="handlePhotoUpload(event, 'proj-6')">
                                 </label>
                             </div>
                         </div>
                         <div class="upload-controls upload-dropzone rounded-xl border border-dashed border-slate-700/90 bg-slate-950/50 px-3 py-2.5 text-center text-[11px] text-slate-400 transition" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'proj-6')">
-                            Drag &amp; drop site photos here, or click <strong class="text-rose-300">Add Picture</strong>
+                            Drag &amp; drop site photos or videos here, or click <strong class="text-rose-300">Add Media</strong>
                         </div>
                         <div class="project-photo-gallery grid grid-cols-2 sm:grid-cols-3 gap-2.5"></div>
                     </div>
@@ -1245,7 +1335,7 @@
         </div>
     </div>
 
-    <!-- Lightbox Modal for Viewing Uploaded Project Pictures -->
+    <!-- Lightbox Modal for Viewing Uploaded Project Pictures & Videos -->
     <div id="lightbox-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4" onclick="closeLightbox(event)">
         <div class="relative max-w-4xl w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 shadow-2xl" onclick="event.stopPropagation()">
             <div class="flex items-center justify-between mb-3">
@@ -1256,6 +1346,7 @@
             </div>
             <div class="flex items-center justify-center bg-slate-950 rounded-xl overflow-hidden max-h-[75vh]">
                 <img id="lightbox-img" src="" alt="Project site photo" class="max-h-[75vh] w-auto object-contain">
+                <video id="lightbox-video" controls playsinline class="hidden max-h-[75vh] w-full object-contain"></video>
             </div>
         </div>
     </div>
@@ -1271,21 +1362,34 @@
         </div>
     </footer>
 
-    <!-- Tab, Theme & Project Photo Upload Script -->
+    <!-- Tab, Theme & Project Media Upload Script -->
     <script>
         // =========================================================================
-        // CLOUDINARY-ONLY STORAGE & ADMIN CONFIGURATION
-        // Anyone who opens your portfolio link automatically fetches your uploaded
-        // photos by project tag from Cloudinary.
-        // Note: In Cloudinary Settings -> Security -> Restricted media types,
-        // uncheck "Resource list" so public visitors can load tagged project galleries.
+        // CLOUDINARY + FIREBASE FIRESTORE SYNC & ADMIN CONFIGURATION
+        // - Uploads files to Cloudinary (koy0d8kg / JM unsigned).
+        // - Saves active media records in Firestore when FIREBASE_CONFIG is set,
+        //   so deleting in Edit Mode removes items permanently for all visitors.
+        // - Falls back gracefully to local browser storage when unconfigured.
         // =========================================================================
         const CLOUDINARY_CLOUD_NAME = 'koy0d8kg';
         const CLOUDINARY_UPLOAD_PRESET = 'JM unsigned';
 
+        // Replace placeholder values below with your Firebase Web App config
+        // and enable Firestore in test/open rules for portfolio media sync.
+        const FIREBASE_CONFIG = {
+            apiKey: 'YOUR_FIREBASE_API_KEY',
+            authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
+            projectId: 'YOUR_FIREBASE_PROJECT_ID',
+            storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+            messagingSenderId: 'YOUR_SENDER_ID',
+            appId: 'YOUR_APP_ID'
+        };
+        const FIRESTORE_MEDIA_COLLECTION = 'jm_portfolio_media';
+
         // Change this passcode before deploying publicly
         const ADMIN_PASSCODE = 'JM2026';
 
+        const MAX_VIDEO_BYTES = 100 * 1024 * 1024; // 100 MB Cloudinary Free Tier video limit
         const PHOTO_STORAGE_KEY = 'jm_portfolio_project_photos_v1';
         const HIDDEN_CLOUD_PHOTOS_KEY = 'jm_portfolio_hidden_cloud_photos_v1';
         const EDIT_SESSION_KEY = 'jm_portfolio_edit_unlocked_v1';
@@ -1307,6 +1411,19 @@
                 CLOUDINARY_CLOUD_NAME !== 'YOUR_CLOUD_NAME' &&
                 CLOUDINARY_UPLOAD_PRESET &&
                 CLOUDINARY_UPLOAD_PRESET !== 'YOUR_UNSIGNED_PRESET'
+            );
+        }
+
+        /**
+         * Returns true once real Firebase Firestore credentials are configured.
+         */
+        function isFirestoreConfigured() {
+            return Boolean(
+                FIREBASE_CONFIG &&
+                FIREBASE_CONFIG.projectId &&
+                FIREBASE_CONFIG.projectId !== 'YOUR_FIREBASE_PROJECT_ID' &&
+                FIREBASE_CONFIG.apiKey &&
+                FIREBASE_CONFIG.apiKey !== 'YOUR_FIREBASE_API_KEY'
             );
         }
 
@@ -1350,12 +1467,15 @@
             const text = document.getElementById('cloud-status-text');
             if (!dot || !text) return;
 
-            if (isCloudConfigured()) {
+            if (isCloudConfigured() && isFirestoreConfigured()) {
                 dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0';
-                text.textContent = 'Cloudinary Connected — Photos are tagged by project and visible to all visitors.';
+                text.textContent = 'Cloudinary + Firestore Synced — Uploads & deletes apply across all devices.';
+            } else if (isCloudConfigured()) {
+                dot.className = 'w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0';
+                text.textContent = 'Cloudinary Connected (Local Delete Mode) — Add FIREBASE_CONFIG for global deletes.';
             } else {
                 dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0';
-                text.textContent = 'Local Preview Mode — Add your Cloudinary Cloud Name & Upload Preset in index.html for public sharing.';
+                text.textContent = 'Local Preview Mode — Add Cloudinary & Firebase keys in index.html for public sync.';
             }
         }
 
@@ -1379,7 +1499,7 @@
                     btn.classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/50');
                     icon.className = 'fa-solid fa-lock text-amber-400';
                     label.textContent = 'Edit Mode';
-                    btn.title = 'Unlock Admin Edit Mode to upload or delete site photos';
+                    btn.title = 'Unlock Admin Edit Mode to upload or delete site media';
                 }
             }
 
@@ -1440,10 +1560,27 @@
             }
         }
 
+        /**
+         * Sorts a project's media items naturally by their trailing filename/public_id
+         * (so numbered prefixes like 01-, 02-, 03-, 10- arrange in exact order across devices).
+         */
+        function sortProjectMedia(items) {
+            if (!Array.isArray(items)) return [];
+            return items.slice().sort((a, b) => {
+                const keyA = String((a && (a.sortKey || a.id || a.name)) || '').split('/').pop();
+                const keyB = String((b && (b.sortKey || b.id || b.name)) || '').split('/').pop();
+                return keyA.localeCompare(keyB, undefined, { numeric: true, sensitivity: 'base' });
+            });
+        }
+
         function loadLocalFallbackPhotos() {
             try {
                 const raw = localStorage.getItem(PHOTO_STORAGE_KEY);
-                projectPhotos = raw ? JSON.parse(raw) : {};
+                const parsed = raw ? JSON.parse(raw) : {};
+                Object.keys(parsed).forEach(pid => {
+                    parsed[pid] = sortProjectMedia(parsed[pid]);
+                });
+                projectPhotos = parsed;
             } catch {
                 projectPhotos = {};
             }
@@ -1454,7 +1591,7 @@
                 localStorage.setItem(PHOTO_STORAGE_KEY, JSON.stringify(projectPhotos));
                 return true;
             } catch {
-                showToast('Browser storage limit reached. Remove a few uploaded photos or connect Cloudinary.');
+                showToast('Browser storage limit reached. Remove a few uploaded items or connect Cloudinary.');
                 return false;
             }
         }
@@ -1477,23 +1614,123 @@
             }
         }
 
-        function buildCloudinaryImageUrl(resource) {
+        function buildCloudinaryMediaUrl(resource, resourceType = 'image') {
             const versionSegment = resource && resource.version ? `v${resource.version}/` : '';
             const formatSegment = resource && resource.format ? `.${resource.format}` : '';
-            return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${versionSegment}${resource.public_id}${formatSegment}`;
+            return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload/${versionSegment}${resource.public_id}${formatSegment}`;
+        }
+
+        function buildCloudinaryVideoPosterUrl(resource) {
+            const versionSegment = resource && resource.version ? `v${resource.version}/` : '';
+            return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload/so_1,f_jpg,q_auto/${versionSegment}${resource.public_id}.jpg`;
         }
 
         function formatResourceDisplayName(publicId) {
-            if (!publicId) return 'Site Photo';
+            if (!publicId) return 'Site Media';
             const base = publicId.split('/').pop() || publicId;
             return base.replace(/[_-]+/g, ' ');
         }
 
-        async function fetchCloudinaryTagList(projectId) {
-            const listUrl = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/list/${encodeURIComponent(projectId)}.json?t=${Date.now()}`;
+        function encodeFirestoreDocId(mediaId) {
+            return encodeURIComponent(String(mediaId || '').replace(/[^a-zA-Z0-9_-]/g, '_'));
+        }
+
+        function toFirestoreFields(record) {
+            return {
+                fields: {
+                    id: { stringValue: String(record.id || '') },
+                    projectId: { stringValue: String(record.projectId || '') },
+                    sortKey: { stringValue: String(record.sortKey || record.name || '') },
+                    type: { stringValue: record.type === 'video' ? 'video' : 'image' },
+                    name: { stringValue: String(record.name || 'Site Media') },
+                    src: { stringValue: String(record.src || '') },
+                    poster: { stringValue: String(record.poster || '') },
+                    updatedAt: { integerValue: String(Date.now()) }
+                }
+            };
+        }
+
+        function fromFirestoreDoc(docObj) {
+            const fields = docObj && docObj.fields ? docObj.fields : {};
+            const id = fields.id && fields.id.stringValue ? fields.id.stringValue : '';
+            const projectId = fields.projectId && fields.projectId.stringValue ? fields.projectId.stringValue : '';
+            const src = fields.src && fields.src.stringValue ? fields.src.stringValue : '';
+            if (!id || !projectId || !src) return null;
+            return {
+                id,
+                projectId,
+                sortKey: fields.sortKey && fields.sortKey.stringValue ? fields.sortKey.stringValue : id,
+                type: fields.type && fields.type.stringValue === 'video' ? 'video' : 'image',
+                name: fields.name && fields.name.stringValue ? fields.name.stringValue : formatResourceDisplayName(id),
+                src,
+                poster: fields.poster && fields.poster.stringValue ? fields.poster.stringValue : ''
+            };
+        }
+
+        function getFirestoreCollectionUrl(docId = '') {
+            const base = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FIREBASE_CONFIG.projectId)}/databases/(default)/documents/${encodeURIComponent(FIRESTORE_MEDIA_COLLECTION)}`;
+            const query = `?key=${encodeURIComponent(FIREBASE_CONFIG.apiKey)}`;
+            return docId ? `${base}/${encodeFirestoreDocId(docId)}${query}` : `${base}${query}`;
+        }
+
+        async function saveMediaRecordToFirestore(projectId, item) {
+            if (!isFirestoreConfigured() || !item || !item.id) return false;
+            const url = getFirestoreCollectionUrl(item.id);
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(toFirestoreFields({ ...item, projectId }))
+            });
+            if (!response.ok) {
+                throw new Error(`FIRESTORE_WRITE_${response.status}`);
+            }
+            return true;
+        }
+
+        async function deleteMediaRecordFromFirestore(mediaId) {
+            if (!isFirestoreConfigured() || !mediaId) return false;
+            const url = getFirestoreCollectionUrl(mediaId);
+            const response = await fetch(url, { method: 'DELETE' });
+            if (!response.ok && response.status !== 404) {
+                throw new Error(`FIRESTORE_DELETE_${response.status}`);
+            }
+            return true;
+        }
+
+        async function fetchAllFirestoreMedia() {
+            const grouped = {};
+            PROJECT_IDS.forEach(pid => { grouped[pid] = []; });
+
+            let pageToken = '';
+            do {
+                const tokenParam = pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : '';
+                const url = `${getFirestoreCollectionUrl()}&pageSize=200${tokenParam}`;
+                const response = await fetch(url, { method: 'GET' });
+                if (!response.ok) {
+                    throw new Error(`FIRESTORE_READ_${response.status}`);
+                }
+                const data = await response.json();
+                const docs = Array.isArray(data.documents) ? data.documents : [];
+                docs.forEach(docObj => {
+                    const parsed = fromFirestoreDoc(docObj);
+                    if (parsed && Object.prototype.hasOwnProperty.call(grouped, parsed.projectId)) {
+                        grouped[parsed.projectId].push(parsed);
+                    }
+                });
+                pageToken = data.nextPageToken || '';
+            } while (pageToken);
+
+            PROJECT_IDS.forEach(pid => {
+                grouped[pid] = sortProjectMedia(grouped[pid]);
+            });
+            return grouped;
+        }
+
+        async function fetchCloudinaryResourceList(projectId, resourceType = 'image') {
+            const listUrl = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/${resourceType}/list/${encodeURIComponent(projectId)}.json?t=${Date.now()}`;
             const response = await fetch(listUrl, { method: 'GET' });
 
-            // Cloudinary returns 404 when no resources have this tag yet
+            // Cloudinary returns 404 when no resources of this type have this tag yet
             if (response.status === 404) {
                 return [];
             }
@@ -1512,15 +1749,44 @@
             const resources = payload && Array.isArray(payload.resources) ? payload.resources : [];
 
             return resources
-                .filter(res => res && res.public_id && !hiddenCloudPhotoIds.has(res.public_id))
+                .filter(res => res && res.public_id && !hiddenCloudPhotoIds.has(`${resourceType}:${res.public_id}`) && !hiddenCloudPhotoIds.has(res.public_id))
                 .map(res => ({
-                    id: res.public_id,
+                    id: `${resourceType}:${res.public_id}`,
+                    sortKey: res.public_id,
+                    type: resourceType,
                     name: formatResourceDisplayName(res.public_id),
-                    src: buildCloudinaryImageUrl(res)
+                    src: buildCloudinaryMediaUrl(res, resourceType),
+                    poster: resourceType === 'video' ? buildCloudinaryVideoPosterUrl(res) : ''
                 }));
         }
 
+        async function fetchCloudinaryTagList(projectId) {
+            const [images, videos] = await Promise.all([
+                fetchCloudinaryResourceList(projectId, 'image'),
+                fetchCloudinaryResourceList(projectId, 'video').catch(err => {
+                    if (err && err.code === 'RESOURCE_LIST_RESTRICTED') {
+                        throw err;
+                    }
+                    return [];
+                })
+            ]);
+            return sortProjectMedia([...images, ...videos]);
+        }
+
         async function loadStoredPhotos() {
+            if (isFirestoreConfigured()) {
+                isLoadingPhotos = true;
+                renderAllProjectPhotos();
+                try {
+                    projectPhotos = await fetchAllFirestoreMedia();
+                    return;
+                } catch {
+                    showToast('Could not sync with Firestore. Falling back to Cloudinary/local cache.');
+                } finally {
+                    isLoadingPhotos = false;
+                }
+            }
+
             if (!isCloudConfigured()) {
                 loadLocalFallbackPhotos();
                 return;
@@ -1547,7 +1813,7 @@
                                 }
                             } else if (!genericErrorShown) {
                                 genericErrorShown = true;
-                                showToast('Could not load Cloudinary project photos. Check your Cloud Name in index.html.');
+                                showToast('Could not load Cloudinary project media. Check your Cloud Name in index.html.');
                             }
                             return { projectId, items: [] };
                         }
@@ -1556,7 +1822,7 @@
 
                 const nextPhotos = {};
                 results.forEach(({ projectId, items }) => {
-                    nextPhotos[projectId] = items;
+                    nextPhotos[projectId] = sortProjectMedia(items);
                 });
                 projectPhotos = nextPhotos;
             } finally {
@@ -1564,15 +1830,14 @@
             }
         }
 
-        async function uploadDataUrlToCloudinary(dataUrl, fileName, projectId) {
-            const blob = await (await fetch(dataUrl)).blob();
+        async function uploadBlobToCloudinary(blob, fileName, projectId, resourceType = 'image') {
             const formData = new FormData();
             formData.append('file', blob, fileName);
             formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
             formData.append('folder', `jm-portfolio/${projectId}`);
             formData.append('tags', projectId);
 
-            const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+            const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`;
             const response = await fetch(endpoint, {
                 method: 'POST',
                 body: formData
@@ -1587,7 +1852,7 @@
             const btnText = card.querySelector('.upload-btn-text');
             const input = card.querySelector('.project-photo-input');
             if (btnText) {
-                btnText.textContent = uploading ? 'Uploading...' : 'Add Picture';
+                btnText.textContent = uploading ? 'Uploading...' : 'Add Media';
             }
             if (input) {
                 input.disabled = uploading;
@@ -1628,13 +1893,22 @@
             });
         }
 
+        function readFileAsDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
         async function addFilesToProject(fileList, projectId) {
             if (!isEditMode) {
-                showToast('Unlock Edit Mode first to upload site photos.', 'info');
+                showToast('Unlock Edit Mode first to upload site photos or videos.', 'info');
                 return;
             }
 
-            const files = Array.from(fileList || []).filter(f => f.type.startsWith('image/'));
+            const files = Array.from(fileList || []).filter(f => f.type.startsWith('image/') || f.type.startsWith('video/'));
             if (!files.length) return;
 
             if (!Array.isArray(projectPhotos[projectId])) {
@@ -1642,32 +1916,81 @@
             }
 
             const cloudReady = isCloudConfigured();
+            const firestoreReady = isFirestoreConfigured();
             let uploadedCount = 0;
             setCardUploadingState(projectId, true);
 
             try {
                 for (const file of files) {
+                    const isVideo = file.type.startsWith('video/');
+
+                    if (isVideo && file.size > MAX_VIDEO_BYTES) {
+                        showToast(`${file.name} exceeds Cloudinary's 100 MB free-tier video limit.`);
+                        continue;
+                    }
+
                     try {
-                        const compressed = await compressImageFile(file);
-                        if (cloudReady) {
-                            const uploaded = await uploadDataUrlToCloudinary(compressed.dataUrl, compressed.name, projectId);
-                            const newId = uploaded.public_id || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-                            if (hiddenCloudPhotoIds.has(newId)) {
-                                hiddenCloudPhotoIds.delete(newId);
-                                saveHiddenCloudPhotoIds();
+                        let newItem = null;
+                        if (isVideo) {
+                            if (cloudReady) {
+                                const uploaded = await uploadBlobToCloudinary(file, file.name, projectId, 'video');
+                                const newId = uploaded.public_id ? `video:${uploaded.public_id}` : `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+                                if (hiddenCloudPhotoIds.has(newId)) {
+                                    hiddenCloudPhotoIds.delete(newId);
+                                    saveHiddenCloudPhotoIds();
+                                }
+                                newItem = {
+                                    id: newId,
+                                    sortKey: uploaded.public_id || file.name,
+                                    type: 'video',
+                                    name: file.name,
+                                    src: uploaded.secure_url || buildCloudinaryMediaUrl(uploaded, 'video'),
+                                    poster: uploaded.public_id ? buildCloudinaryVideoPosterUrl(uploaded) : ''
+                                };
+                            } else {
+                                const videoDataUrl = await readFileAsDataUrl(file);
+                                newItem = {
+                                    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                                    sortKey: file.name,
+                                    type: 'video',
+                                    name: file.name,
+                                    src: videoDataUrl,
+                                    poster: ''
+                                };
                             }
-                            projectPhotos[projectId].unshift({
-                                id: newId,
-                                name: compressed.name,
-                                src: uploaded.secure_url || buildCloudinaryImageUrl(uploaded)
-                            });
-                            uploadedCount += 1;
                         } else {
-                            projectPhotos[projectId].push({
-                                id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-                                name: compressed.name,
-                                src: compressed.dataUrl
-                            });
+                            const compressed = await compressImageFile(file);
+                            if (cloudReady) {
+                                const blob = await (await fetch(compressed.dataUrl)).blob();
+                                const uploaded = await uploadBlobToCloudinary(blob, compressed.name, projectId, 'image');
+                                const newId = uploaded.public_id ? `image:${uploaded.public_id}` : `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+                                if (hiddenCloudPhotoIds.has(newId)) {
+                                    hiddenCloudPhotoIds.delete(newId);
+                                    saveHiddenCloudPhotoIds();
+                                }
+                                newItem = {
+                                    id: newId,
+                                    sortKey: uploaded.public_id || compressed.name,
+                                    type: 'image',
+                                    name: compressed.name,
+                                    src: uploaded.secure_url || buildCloudinaryMediaUrl(uploaded, 'image')
+                                };
+                            } else {
+                                newItem = {
+                                    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                                    sortKey: compressed.name,
+                                    type: 'image',
+                                    name: compressed.name,
+                                    src: compressed.dataUrl
+                                };
+                            }
+                        }
+
+                        if (newItem) {
+                            projectPhotos[projectId].push(newItem);
+                            if (firestoreReady) {
+                                await saveMediaRecordToFirestore(projectId, newItem);
+                            }
                             uploadedCount += 1;
                         }
                     } catch {
@@ -1675,17 +1998,21 @@
                     }
                 }
 
-                if (!cloudReady) {
+                projectPhotos[projectId] = sortProjectMedia(projectPhotos[projectId]);
+
+                if (!cloudReady && !firestoreReady) {
                     const saved = saveLocalFallbackPhotos();
                     if (!saved) return;
                 }
 
                 renderProjectPhotos(projectId);
                 if (uploadedCount > 0) {
-                    if (cloudReady) {
-                        showToast('Photo(s) uploaded to Cloudinary and published for all visitors.', 'success');
+                    if (cloudReady && firestoreReady) {
+                        showToast('Uploaded to Cloudinary and synced with Firestore for all visitors.', 'success');
+                    } else if (cloudReady) {
+                        showToast('Media uploaded to Cloudinary and published for all visitors.', 'success');
                     } else {
-                        showToast('Saved in browser preview. Add Cloudinary keys for public sharing.', 'info');
+                        showToast('Saved in browser preview. Add Cloudinary & Firebase keys for public sync.', 'info');
                     }
                 }
             } finally {
@@ -1723,10 +2050,20 @@
             projectPhotos[projectId] = projectPhotos[projectId].filter(p => p.id !== photoId);
             renderProjectPhotos(projectId);
 
+            if (isFirestoreConfigured()) {
+                try {
+                    await deleteMediaRecordFromFirestore(photoId);
+                    showToast('Deleted permanently for all visitors across devices.', 'success');
+                } catch {
+                    showToast('Failed to delete record from Firestore. Check your Firestore rules/config.');
+                }
+                return;
+            }
+
             if (isCloudConfigured()) {
                 hiddenCloudPhotoIds.add(photoId);
                 saveHiddenCloudPhotoIds();
-                showToast('Hidden in this browser. To delete permanently for all visitors, remove it in your Cloudinary Media Library.', 'info');
+                showToast('Hidden in this browser. Add FIREBASE_CONFIG to delete globally for all visitors.', 'info');
             } else {
                 saveLocalFallbackPhotos();
             }
@@ -1736,10 +2073,11 @@
             const card = document.querySelector(`.project-card[data-project-id="${projectId}"]`);
             if (!card) return;
 
-            const photos = projectPhotos[projectId] || [];
+            const photos = sortProjectMedia(projectPhotos[projectId] || []);
+            projectPhotos[projectId] = photos;
             const countEl = card.querySelector('.photo-count');
             const galleryEl = card.querySelector('.project-photo-gallery');
-            const projectTitle = card.dataset.projectTitle || 'Project Photo';
+            const projectTitle = card.dataset.projectTitle || 'Project Media';
 
             if (countEl) {
                 countEl.textContent = photos.length;
@@ -1749,35 +2087,64 @@
             galleryEl.innerHTML = '';
 
             if (isLoadingPhotos) {
-                galleryEl.innerHTML = '<div class="col-span-full text-xs text-slate-400 py-2 flex items-center gap-2"><i class="fa-solid fa-spinner fa-spin text-cyan-400"></i> Loading site photos...</div>';
+                galleryEl.innerHTML = '<div class="col-span-full text-xs text-slate-400 py-2 flex items-center gap-2"><i class="fa-solid fa-spinner fa-spin text-cyan-400"></i> Loading site media...</div>';
                 return;
             }
 
             if (photos.length === 0 && !isEditMode) {
-                galleryEl.innerHTML = '<p class="col-span-full text-[11px] text-slate-500 italic">No site photos uploaded yet.</p>';
+                galleryEl.innerHTML = '<p class="col-span-full text-[11px] text-slate-500 italic">No site photos or videos uploaded yet.</p>';
                 return;
             }
 
-            photos.forEach(photo => {
+            photos.forEach(media => {
+                const isVideo = media.type === 'video';
                 const item = document.createElement('div');
                 item.className = 'group relative rounded-xl overflow-hidden border border-slate-700/80 bg-slate-950 h-24 cursor-pointer';
-                item.onclick = () => openLightbox(photo.src, `${projectTitle} — ${photo.name}`);
+                item.onclick = () => openLightbox(media.src, `${projectTitle} — ${media.name}`, isVideo ? 'video' : 'image');
 
-                const img = document.createElement('img');
-                img.src = photo.src;
-                img.alt = photo.name;
-                img.loading = 'lazy';
-                img.className = 'project-photo-thumb w-full h-24 object-cover group-hover:scale-105 transition duration-300';
+                if (isVideo) {
+                    if (media.poster) {
+                        const img = document.createElement('img');
+                        img.src = media.poster;
+                        img.alt = media.name;
+                        img.loading = 'lazy';
+                        img.className = 'project-photo-thumb w-full h-24 object-cover group-hover:scale-105 transition duration-300';
+                        item.appendChild(img);
+                    } else {
+                        const vidThumb = document.createElement('video');
+                        vidThumb.src = media.src;
+                        vidThumb.muted = true;
+                        vidThumb.preload = 'metadata';
+                        vidThumb.className = 'project-photo-thumb w-full h-24 object-cover group-hover:scale-105 transition duration-300';
+                        item.appendChild(vidThumb);
+                    }
+
+                    const playOverlay = document.createElement('div');
+                    playOverlay.className = 'absolute inset-0 bg-slate-950/35 group-hover:bg-slate-950/20 flex items-center justify-center transition pointer-events-none';
+                    playOverlay.innerHTML = '<span class="w-8 h-8 rounded-full bg-cyan-500/90 text-white flex items-center justify-center shadow-lg"><i class="fa-solid fa-play text-xs ml-0.5"></i></span>';
+                    item.appendChild(playOverlay);
+
+                    const badge = document.createElement('span');
+                    badge.className = 'absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-slate-950/85 text-[9px] font-bold uppercase tracking-wider text-cyan-300 border border-cyan-500/30 pointer-events-none';
+                    badge.textContent = 'VIDEO';
+                    item.appendChild(badge);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = media.src;
+                    img.alt = media.name;
+                    img.loading = 'lazy';
+                    img.className = 'project-photo-thumb w-full h-24 object-cover group-hover:scale-105 transition duration-300';
+                    item.appendChild(img);
+                }
 
                 const removeBtn = document.createElement('button');
                 removeBtn.type = 'button';
-                removeBtn.className = 'photo-remove-btn absolute top-1.5 right-1.5 w-6 h-6 rounded-md bg-slate-950/85 hover:bg-rose-600 text-slate-200 hover:text-white flex items-center justify-center text-xs transition';
-                removeBtn.title = 'Remove photo';
-                removeBtn.setAttribute('aria-label', `Remove ${photo.name}`);
+                removeBtn.className = 'photo-remove-btn absolute top-1.5 right-1.5 z-10 w-6 h-6 rounded-md bg-slate-950/85 hover:bg-rose-600 text-slate-200 hover:text-white flex items-center justify-center text-xs transition';
+                removeBtn.title = 'Remove media';
+                removeBtn.setAttribute('aria-label', `Remove ${media.name}`);
                 removeBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-                removeBtn.onclick = (e) => removeProjectPhoto(projectId, photo.id, e);
+                removeBtn.onclick = (e) => removeProjectPhoto(projectId, media.id, e);
 
-                item.appendChild(img);
                 item.appendChild(removeBtn);
                 galleryEl.appendChild(item);
             });
@@ -1789,13 +2156,29 @@
             });
         }
 
-        function openLightbox(src, caption) {
+        function openLightbox(src, caption, mediaType = 'image') {
             const modal = document.getElementById('lightbox-modal');
             const img = document.getElementById('lightbox-img');
+            const video = document.getElementById('lightbox-video');
             const cap = document.getElementById('lightbox-caption');
-            if (!modal || !img) return;
-            img.src = src;
+            if (!modal || !img || !video) return;
+
             if (cap) cap.textContent = caption;
+
+            if (mediaType === 'video') {
+                img.classList.add('hidden');
+                img.src = '';
+                video.classList.remove('hidden');
+                video.src = src;
+                video.load();
+            } else {
+                video.pause();
+                video.classList.add('hidden');
+                video.removeAttribute('src');
+                img.classList.remove('hidden');
+                img.src = src;
+            }
+
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
@@ -1803,6 +2186,11 @@
         function closeLightbox(event) {
             if (event && event.target && event.target.id !== 'lightbox-modal') return;
             const modal = document.getElementById('lightbox-modal');
+            const video = document.getElementById('lightbox-video');
+            if (video) {
+                video.pause();
+                video.removeAttribute('src');
+            }
             if (!modal) return;
             modal.classList.add('hidden');
             modal.classList.remove('flex');
@@ -1944,7 +2332,7 @@
                 await loadStoredPhotos();
                 renderAllProjectPhotos();
             } catch {
-                // Non-blocking cloud photo load fallback
+                // Non-blocking cloud media load fallback
             }
         });
         window.addEventListener('load', syncActiveTabSlider);
@@ -1972,4 +2360,4 @@
         }
     </script>
 </body>
-                                                                                            </html>
+        </html>
